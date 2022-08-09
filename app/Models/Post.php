@@ -10,6 +10,11 @@ class Post extends Model
 {
     use HasFactory; // trait
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     public function scopeAdvertise($query)
     {
         return $query->where('like_count', '<', 1000)
@@ -49,5 +54,14 @@ class Post extends Model
         return Attribute::make(
             get: fn ($value) => $this->numberToK($value)
         );
+    }
+
+    /**
+     * 
+     * return realationship with comments
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }
