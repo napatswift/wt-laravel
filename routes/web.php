@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,18 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->to('/posts');
+    return view('welcome');
 });
 
-                        // Closure
-Route::get('/about', function () {
-    return "About Me";
-});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::get('/pages', [\App\Http\Controllers\PageController::class, 'index']);
-Route::get('/pages/{id}', [\App\Http\Controllers\PageController::class, 'show']);
-
-Route::post('posts/{post}/comments/store', [PostController::class, 'storeComment'])->name('posts.comments.store');
-Route::resource('/posts', \App\Http\Controllers\PostController::class);
-
-Route::resource('/tags', \App\Http\Controllers\TagController::class);
+require __DIR__.'/auth.php';
